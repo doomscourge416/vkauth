@@ -27,7 +27,8 @@ if (isset($_GET['code'])) {
 
     // Сохраняем токен в сессии
     $_SESSION['token'] = $data['access_token'];
-    $_SESSION['user_id'] = $data['user_id'];
+    $_SESSION['vk_user_id'] = $data['user_id'];
+    $_SESSION['role'] = 'vk_user';
     if (isset($data['email'])) {
         $_SESSION['email'] = $data['email'];
     }

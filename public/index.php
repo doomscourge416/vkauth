@@ -14,6 +14,7 @@ session_start(); // Подключаем сессии
 
     <a href="register.php">Регистрация</a><br>
     <a href="login.php">Авторизация</a><br>
+    <a href="dashboard.php">Только для авторизованных пользователей</a>
     
     
 </body>
