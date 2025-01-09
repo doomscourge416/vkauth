@@ -5,27 +5,27 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Formatter\HtmlFormatter;
 
 session_start(); // Подключаем сессии
+$log = new Logger('mylogger');
+$log->pushHandler(new StreamHandler('mylog.log', Logger::WARNING));
+$log->pushHandler(new StreamHandler('troubles.log', Logger::ALERT));
+
+if(!isset($_SESSION['user_id'])){
+    echo "Вы не залогинены" ;
+} else {
+    echo '<h1>Добро пожаловать!</h1>';
+    echo '<p>Ваш ID: ' . $_SESSION['user_id'] . '</p>';
+}
 
 // Проверяем, есть ли токен в сессии
-if (!isset($_SESSION['token'])) {
-    header('Location: index.php');
-    exit('Вы не авторизованы.');
+if (isset($_SESSION['token'])) {
+    echo '<p>Ваш токен: ' . $_SESSION['token'] . '</p>';
+    echo '<p>Ваш VK ID: ' . $_SESSION['user_id'] . '</p>';
+    if (isset($_SESSION['email'])) {
+        echo '<p>Ваш email: ' . $_SESSION['email'] . '</p>';
+    }
 }
 
-echo '<h1>Добро пожаловать!</h1>';
-echo '<p>Ваш токен: ' . $_SESSION['token'] . '</p>';
-echo '<p>Ваш VK ID: ' . $_SESSION['user_id'] . '</p>';
-
-if (isset($_SESSION['email'])) {
-    echo '<p>Ваш email: ' . $_SESSION['email'] . '</p>';
-}
-
-if(isset($_SESSION['user_id']) && isset($_SESSION['token'])){  
-
-    $log = new Logger('mylogger');
-    $log->pushHandler(new StreamHandler('mylog.log', Logger::WARNING));
-    $log->pushHandler(new StreamHandler('troubles.log', Logger::ALERT));
-
+if(isset($_SESSION['user_id'])){  
     //  Обработка формы
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
         $message = $_POST['message'] ?? '';
@@ -44,7 +44,7 @@ if(isset($_SESSION['user_id']) && isset($_SESSION['token'])){
 ?>
 
 <h2>Отправка сообщения</h2>
-<form method="POST">
+<form action="dashboard.php" method="POST">
     <textarea name="message" placeholder="Введите ваше сообщение" rows="4" cols="50"></textarea></br>
     <input type="submit" value="Отправить" />
 </form> 

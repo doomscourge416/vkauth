@@ -1,2 +1,3 @@
 OK boss How are you?
 Im fine! Thx
+Привет я такой то такой то отправляю сообщение в файл message.txt
